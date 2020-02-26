@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.bw.dao.ShopMapper">
+  		<select id="list" resultType="Shop">
+  			select * from good_shop 
+			left join good_type on good_shop.tid=good_type.tid 
+			left join good_brand on good_shop.bid=good_brand.bid
+  			
+  			<where>
+  				<if test="type!=null and type!=''">
+  				and good_type.type like concat('%',#{type},'%')
+  			</if>
+  			<if test="brand!=null and brand!=''">
+  				and good_brand.brand like concat('%',#{brand},'%')
+  			</if>
+  			<if test="p1!=null and p1!=''">
+  				and good_shop.sprice&gt;=p1;
+  			</if>
+  			<if test="p2!=null and p2!=''">
+  				and good_shop.sprice&lt;=p2;
+  			</if>
+  			<if test="sname!=null and sname!=''">
+  				and good_shop.sname like concat('%',#{sname},'%')
+  			</if>
+  			</where>
+  		</select>
+  		<insert id="add">
+  			insert into good_shop values(null,#{sname},#{syname},#{ssize},#{sprice},#{snum},#{sbq},null,#{tid},#{bid})
+  		</insert>
+  </mapper>
